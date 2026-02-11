@@ -58,8 +58,8 @@ const communities = [
 
 const socialLinks = [
   { name: 'Farcaster', icon: MessageCircle, href: 'https://farcaster.xyz/~/group/5MdpDf9A3g5b94lsnQaukA' },
-  { name: 'Telegram', icon: Send, href: 'https://t.me/mpdao' },
-  { name: 'Twitter', icon: Twitter, href: 'https://twitter.com/mpdao' },
+  { name: 'Telegram', icon: Send, href: 'https://t.me/MP_dao' },
+  { name: 'Twitter', icon: Twitter, href: 'https://x.com/MPdao_' },
 ];
 
 export default function CommunitiesPage() {
