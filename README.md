@@ -12,7 +12,8 @@ yarn dev
 pnpm dev
 # or
 bun dev
-```
+```<img width="2000" height="2000" alt="Black White Minimal Simple Bold  Modern Professional Photography Letter K Museum Logo" src="https://github.com/user-attachments/assets/6c7ee0e7-83e4-4b2b-90f0-d00ee18f3086" />
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
