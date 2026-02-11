@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 320" width="500" height="320">
+  <!-- Black background -->
+  <rect width="500" height="320" fill="#000000"/>
+  
+  <!-- Pixelated MPdao text using 16px blocks -->
+  <g fill="white">
+    <!-- M -->
+    <rect x="30" y="80" width="16" height="128"/>
+    <rect x="46" y="80" width="16" height="16"/>
+    <rect x="62" y="96" width="16" height="16"/>
+    <rect x="78" y="112" width="16" height="16"/>
+    <rect x="94" y="96" width="16" height="16"/>
+    <rect x="110" y="80" width="16" height="128"/>
+    
+    <!-- P -->
+    <rect x="150" y="80" width="16" height="128"/>
+    <rect x="166" y="80" width="48" height="16"/>
+    <rect x="166" y="112" width="48" height="16"/>
+    <rect x="214" y="96" width="16" height="32"/>
+    
+    <!-- d -->
+    <rect x="270" y="48" width="16" height="160"/>
+    <rect x="254" y="112" width="16" height="96"/>
+    <rect x="238" y="160" width="48" height="16"/>
+    <rect x="238" y="112" width="48" height="16"/>
+    
+    <!-- a -->
+    <rect x="310" y="128" width="16" height="96"/>
+    <rect x="326" y="96" width="16" height="16"/>
+    <rect x="326" y="128" width="32" height="16"/>
+    <rect x="358" y="128" width="16" height="96"/>
+    <rect x="326" y="144" width="48" height="16"/>
+    
+    <!-- o -->
+    <rect x="410" y="128" width="48" height="16"/>
+    <rect x="410" y="192" width="48" height="16"/>
+    <rect x="410" y="144" width="16" height="48"/>
+    <rect x="442" y="144" width="16" height="48"/>
+  </g>
+</svg>
