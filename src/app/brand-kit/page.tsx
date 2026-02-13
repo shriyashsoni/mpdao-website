@@ -54,25 +54,25 @@ export default function BrandKitPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-background pt-20 pb-12">
+    <main className="min-h-screen bg-white pt-20 pb-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-16">
-          <h1 className="text-5xl font-bold mb-4 text-foreground">Brand Kit</h1>
-          <p className="text-xl text-foreground/70">
+          <h1 className="text-5xl font-bold mb-4 text-black">Brand Kit</h1>
+          <p className="text-xl text-gray-600">
             Official MP DAO branding guidelines and assets. Use these resources to maintain consistency across all communications.
           </p>
         </div>
 
         {/* Logo Section */}
         <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-2 text-foreground">Logo Variations</h2>
-          <p className="text-foreground/70 mb-8">Choose the appropriate logo variation for your use case</p>
+          <h2 className="text-3xl font-bold mb-2 text-black">Logo Variations</h2>
+          <p className="text-gray-600 mb-8">Choose the appropriate logo variation for your use case</p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {logos.map((logo, index) => (
-              <div key={index} className="bg-card border border-border rounded-lg p-6 flex flex-col">
-                <div className="mb-6 bg-gradient-to-br from-slate-100 to-slate-50 rounded-lg p-8 flex items-center justify-center min-h-48">
+              <div key={index} className="bg-white border border-gray-200 rounded-lg p-6 flex flex-col">
+                <div className="mb-6 bg-gradient-to-br from-gray-100 to-gray-50 rounded-lg p-8 flex items-center justify-center min-h-48">
                   <Image
                     src={logo.src}
                     alt={logo.name}
@@ -81,15 +81,15 @@ export default function BrandKitPage() {
                     className="max-w-full h-auto"
                   />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground mb-2">{logo.name}</h3>
-                <p className="text-foreground/70 mb-3">{logo.description}</p>
-                <p className="text-sm text-foreground/60 mb-4">
+                <h3 className="text-xl font-semibold text-black mb-2">{logo.name}</h3>
+                <p className="text-gray-600 mb-3">{logo.description}</p>
+                <p className="text-sm text-gray-500 mb-4">
                   <span className="font-semibold">Usage:</span> {logo.usage}
                 </p>
                 <a
                   href={logo.src}
                   download
-                  className="mt-auto inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity"
+                  className="mt-auto inline-flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
                 >
                   <Download className="w-4 h-4" />
                   Download
@@ -101,12 +101,12 @@ export default function BrandKitPage() {
 
         {/* Color Palette */}
         <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-2 text-foreground">Color Palette</h2>
-          <p className="text-foreground/70 mb-8">Official MP DAO color scheme</p>
+          <h2 className="text-3xl font-bold mb-2 text-black">Color Palette</h2>
+          <p className="text-gray-600 mb-8">Official MP DAO color scheme</p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {colors.map((color, index) => (
-              <div key={index} className="bg-card border border-border rounded-lg overflow-hidden">
+              <div key={index} className="bg-white border border-gray-200 rounded-lg overflow-hidden">
                 <div
                   className="h-32 w-full cursor-pointer hover:opacity-90 transition-opacity"
                   style={{ backgroundColor: color.hex }}
@@ -114,14 +114,14 @@ export default function BrandKitPage() {
                   title="Click to copy hex code"
                 />
                 <div className="p-4">
-                  <h3 className="font-semibold text-foreground mb-2">{color.name}</h3>
-                  <div className="space-y-1 text-sm text-foreground/70">
+                  <h3 className="font-semibold text-black mb-2">{color.name}</h3>
+                  <div className="space-y-1 text-sm text-gray-600">
                     <p className="font-mono">{color.hex}</p>
                     <p className="font-mono">{color.rgb}</p>
                   </div>
                   <button
                     onClick={() => copyToClipboard(color.hex, color.name)}
-                    className="mt-3 w-full flex items-center justify-center gap-2 px-3 py-2 bg-secondary text-secondary-foreground rounded hover:opacity-80 transition-opacity text-sm"
+                    className="mt-3 w-full flex items-center justify-center gap-2 px-3 py-2 bg-gray-100 text-black rounded hover:bg-gray-200 transition-colors text-sm"
                   >
                     <Copy className="w-4 h-4" />
                     {copied === color.name ? 'Copied!' : 'Copy Hex'}
@@ -134,18 +134,18 @@ export default function BrandKitPage() {
 
         {/* Typography */}
         <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-2 text-foreground">Typography</h2>
-          <p className="text-foreground/70 mb-8">Font families and weights used across MP DAO branding</p>
+          <h2 className="text-3xl font-bold mb-2 text-black">Typography</h2>
+          <p className="text-gray-600 mb-8">Font families and weights used across MP DAO branding</p>
           
-          <div className="bg-card border border-border rounded-lg p-8">
+          <div className="bg-white border border-gray-200 rounded-lg p-8">
             <div className="space-y-8">
               {typography.map((font, index) => (
-                <div key={index} className="border-b border-border last:border-b-0 pb-6 last:pb-0">
-                  <h3 className="text-lg font-semibold text-foreground mb-2">{font.name}</h3>
-                  <p className="text-foreground/70 mb-3">
+                <div key={index} className="border-b border-gray-200 last:border-b-0 pb-6 last:pb-0">
+                  <h3 className="text-lg font-semibold text-black mb-2">{font.name}</h3>
+                  <p className="text-gray-600 mb-3">
                     <span className="font-semibold">Font Family:</span> {font.family}
                   </p>
-                  <p className="text-foreground/70 mb-4">
+                  <p className="text-gray-600 mb-4">
                     <span className="font-semibold">Available Weights:</span> {font.weights}
                   </p>
                   <div className="space-y-2">
@@ -176,8 +176,8 @@ export default function BrandKitPage() {
 
         {/* Guidelines */}
         <section className="mb-20">
-          <h2 className="text-3xl font-bold mb-2 text-foreground">Brand Guidelines</h2>
-          <p className="text-foreground/70 mb-8">Best practices for using MP DAO branding</p>
+          <h2 className="text-3xl font-bold mb-2 text-black">Brand Guidelines</h2>
+          <p className="text-gray-600 mb-8">Best practices for using MP DAO branding</p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-green-50 border border-green-200 rounded-lg p-6">
@@ -206,10 +206,10 @@ export default function BrandKitPage() {
 
         {/* Download All */}
         <section className="text-center">
-          <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg p-8 text-white">
-            <h2 className="text-2xl font-bold mb-3">Download All Assets</h2>
-            <p className="mb-6 opacity-90">Get all brand kit files including logos, guidelines, and more</p>
-            <button className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-600 font-semibold rounded-lg hover:bg-opacity-90 transition-all">
+          <div className="bg-white border border-gray-200 rounded-lg p-8">
+            <h2 className="text-2xl font-bold mb-3 text-black">Download All Assets</h2>
+            <p className="mb-6 text-gray-600">Get all brand kit files including logos, guidelines, and more</p>
+            <button className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition-all">
               <Download className="w-5 h-5" />
               Download Brand Kit (ZIP)
             </button>

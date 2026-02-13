@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ExternalLink } from 'lucide-react';
 
@@ -9,7 +10,6 @@ const navLinks = [
   { name: 'Home', href: '/' },
   { name: 'Events', href: '/events' },
   { name: 'About', href: '/about' },
-  { name: 'Brand Kit', href: '/brand-kit' },
 ];
 
 export default function Navigation() {
@@ -20,8 +20,14 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex-shrink-0 text-white font-bold text-xl tracking-tight hover:text-indigo-300 transition-colors">
-            MP DAO
+          <Link href="/" className="flex-shrink-0 hover:opacity-80 transition-opacity">
+            <Image 
+              src="/mpdao-logo-outline.png" 
+              alt="MP DAO Logo" 
+              width={120} 
+              height={40}
+              className="h-10 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}

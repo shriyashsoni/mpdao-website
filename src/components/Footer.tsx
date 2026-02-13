@@ -8,6 +8,7 @@ const footerLinks = {
     { name: 'About', href: '/about' },
     { name: 'Events', href: '/events' },
     { name: 'Submit Event', href: 'https://luma.com/mpdao?k=c', external: true },
+    { name: 'Brand Kit', href: '/brand-kit' },
   ],
   legal: [
     { name: 'Privacy Policy', href: '/privacy' },
