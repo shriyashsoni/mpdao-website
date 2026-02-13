@@ -22,9 +22,9 @@ export default function Navigation() {
           {/* Logo */}
           <Link href="/" className="flex-shrink-0 hover:opacity-80 transition-opacity">
             <Image 
-              src="/mpdao-logo-outline.png" 
+              src="/mpdao-logo-new.png" 
               alt="MP DAO Logo" 
-              width={120} 
+              width={150} 
               height={40}
               className="h-10 w-auto"
             />

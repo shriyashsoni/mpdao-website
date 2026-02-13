@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Twitter, Github, MessageCircle, Send, Heart, ArrowUpRight } from 'lucide-react';
 
 const footerLinks = {
@@ -35,8 +36,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-16">
           {/* Brand Section */}
           <div className="lg:col-span-1 space-y-8">
-            <Link href="/" className="inline-block text-white font-bold text-2xl tracking-tight hover:text-indigo-300 transition-colors mb-4">
-              MP DAO
+            <Link href="/" className="inline-block hover:opacity-80 transition-opacity">
+              <Image 
+                src="/mpdao-logo-new.png" 
+                alt="MP DAO Logo" 
+                width={150} 
+                height={50}
+                className="h-12 w-auto"
+              />
             </Link>
             
             <p className="text-gray-400 text-sm leading-relaxed">
