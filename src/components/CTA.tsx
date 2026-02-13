@@ -5,8 +5,8 @@ import { ArrowRight, MessageCircle, Send, Twitter } from 'lucide-react';
 
 const socialLinks = [
   { name: 'Farcaster', icon: MessageCircle, href: 'https://farcaster.xyz/~/group/5MdpDf9A3g5b94lsnQaukA', color: 'bg-indigo-500/10 hover:bg-indigo-500/20' },
-  { name: 'Telegram', icon: Send, href: 'https://t.me/mpdao', color: 'bg-blue-500/10 hover:bg-blue-500/20' },
-  { name: 'Twitter', icon: Twitter, href: 'https://twitter.com/mpdao', color: 'bg-sky-500/10 hover:bg-sky-500/20' },
+  { name: 'Telegram', icon: Send, href: 'https://t.me/MP_dao', color: 'bg-blue-500/10 hover:bg-blue-500/20' },
+  { name: 'Twitter', icon: Twitter, href: 'https://x.com/MPdao_', color: 'bg-sky-500/10 hover:bg-sky-500/20' },
 ];
 
 export default function CTA() {
