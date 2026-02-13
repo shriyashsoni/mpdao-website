@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   description: "MP DAO is a decentralized community initiative bringing Web3 technology to Madhya Pradesh and India. Join us for events, meetups, and workshops.",
   keywords: ["MP DAO", "Web3", "Madhya Pradesh", "Blockchain", "DAO", "Ethereum", "India", "Decentralized"],
   authors: [{ name: "MP DAO" }],
+  icons: {
+    icon: "/mpdao-favicon.png",
+  },
   openGraph: {
     title: "MP DAO - Bringing Web3 to the Heart of India",
     description: "A decentralized community empowering Madhya Pradesh and beyond",
