@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   keywords: ["MP DAO", "Web3", "Madhya Pradesh", "Blockchain", "DAO", "Ethereum", "India", "Decentralized"],
   authors: [{ name: "MP DAO" }],
   icons: {
-    icon: "/mpdao-favicon.png",
+    icon: "/favicon.png",
   },
   openGraph: {
     title: "MP DAO - Bringing Web3 to the Heart of India",
