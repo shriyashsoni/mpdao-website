@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 
     // Send email using Resend
     const response = await resend.emails.send({
-      from: 'Partnership Requests <onboarding@resend.dev>',
+      from: 'noreply@mpdao.xyz',
       to: 'partnerships@mpdao.xyz',
       subject: `New Partnership Request from ${body.company}`,
       html: `
@@ -42,17 +42,20 @@ export async function POST(request: NextRequest) {
     });
 
     if (!response.data?.id) {
-      throw new Error('Failed to send email');
+      console.error('[v0] Resend response:', response);
+      throw new Error('Failed to send email - no message ID returned');
     }
 
+    console.log('[v0] Partnership email sent successfully:', response.data.id);
     return NextResponse.json(
       { success: true, message: 'Partnership request sent successfully' },
       { status: 200 }
     );
   } catch (error) {
-    console.error('[v0] Partnership API error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('[v0] Partnership API error:', errorMessage);
     return NextResponse.json(
-      { error: 'Failed to process partnership request' },
+      { error: `Failed to process partnership request: ${errorMessage}` },
       { status: 500 }
     );
   }
