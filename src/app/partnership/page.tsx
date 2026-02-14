@@ -79,8 +79,8 @@ export default function PartnershipPage() {
           <div className="bg-slate-900 border border-slate-800 rounded-lg p-6">
             <Mail className="w-8 h-8 text-indigo-500 mb-3" />
             <h3 className="text-white font-semibold mb-2">Email</h3>
-            <a href="mailto:partnerships@mpdao.xyz" className="text-gray-400 hover:text-indigo-400 transition">
-              partnerships@mpdao.xyz
+            <a href="mailto:partnership@mpdao.site" className="text-gray-400 hover:text-indigo-400 transition">
+              partnership@mpdao.site
             </a>
           </div>
 
