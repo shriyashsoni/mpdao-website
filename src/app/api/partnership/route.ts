@@ -24,21 +24,71 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Send email using Resend with professional template
+    const emailHtml = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: #000; color: #fff; padding: 30px; border-radius: 8px 8px 0 0; text-align: center; }
+            .header h1 { margin: 0; font-size: 24px; }
+            .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px; }
+            .field { margin-bottom: 20px; }
+            .label { font-weight: 600; color: #000; margin-bottom: 5px; }
+            .value { color: #555; padding: 10px; background: #fff; border-left: 3px solid #6366f1; }
+            .description-box { background: #fff; padding: 15px; border-left: 3px solid #6366f1; margin-top: 10px; }
+            .footer { text-align: center; padding: 20px; color: #888; font-size: 12px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>New Partnership Inquiry</h1>
+            </div>
+            <div class="content">
+              <div class="field">
+                <div class="label">Name</div>
+                <div class="value">${body.name}</div>
+              </div>
+              <div class="field">
+                <div class="label">Email Address</div>
+                <div class="value"><a href="mailto:${body.email}">${body.email}</a></div>
+              </div>
+              <div class="field">
+                <div class="label">Phone</div>
+                <div class="value">${body.phone || 'Not provided'}</div>
+              </div>
+              <div class="field">
+                <div class="label">Company</div>
+                <div class="value">${body.company}</div>
+              </div>
+              <div class="field">
+                <div class="label">Partnership Type</div>
+                <div class="value">${body.partnership_type}</div>
+              </div>
+              <div class="field">
+                <div class="label">Partnership Description</div>
+                <div class="description-box">${body.description.replace(/\n/g, '<br>')}</div>
+              </div>
+            </div>
+            <div class="footer">
+              <p>This is an automated email from MP DAO Partnership Request Form</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `;
+
     // Send email using Resend
     const response = await resend.emails.send({
-      from: 'noreply@mpdao.xyz',
-      to: 'partnerships@mpdao.xyz',
+      from: 'noreply@mpdao.site',
+      to: 'partnership@mpdao.site',
+      replyTo: body.email,
       subject: `New Partnership Request from ${body.company}`,
-      html: `
-        <h2>New Partnership Request</h2>
-        <p><strong>Name:</strong> ${body.name}</p>
-        <p><strong>Email:</strong> ${body.email}</p>
-        <p><strong>Phone:</strong> ${body.phone}</p>
-        <p><strong>Company:</strong> ${body.company}</p>
-        <p><strong>Partnership Type:</strong> ${body.partnership_type}</p>
-        <h3>Description:</h3>
-        <p>${body.description.replace(/\n/g, '<br>')}</p>
-      `,
+      html: emailHtml,
     });
 
     if (!response.data?.id) {
