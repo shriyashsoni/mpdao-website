@@ -3,20 +3,34 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowRight, ExternalLink } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function Hero() {
+  const [pixels, setPixels] = useState<Array<{ left: number; top: number; duration: number; delay: number }>>([]);
+
+  useEffect(() => {
+    // Generate random positions only on client side
+    const generatedPixels = [...Array(20)].map(() => ({
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      duration: 4 + Math.random() * 4,
+      delay: Math.random() * 2,
+    }));
+    setPixels(generatedPixels);
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden grid-pattern">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Floating pixels */}
-        {[...Array(20)].map((_, i) => (
+        {pixels.map((pixel, i) => (
           <motion.div
             key={i}
             className="absolute w-2 h-2 bg-white/10"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${pixel.left}%`,
+              top: `${pixel.top}%`,
             }}
             animate={{
               y: [0, -30, 0],
@@ -24,9 +38,9 @@ export default function Hero() {
               rotate: [0, 180, 360],
             }}
             transition={{
-              duration: 4 + Math.random() * 4,
+              duration: pixel.duration,
               repeat: Infinity,
-              delay: Math.random() * 2,
+              delay: pixel.delay,
             }}
           />
         ))}
