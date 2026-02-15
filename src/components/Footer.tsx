@@ -76,25 +76,13 @@ export default function Footer() {
             <ul className="space-y-4">
               {footerLinks.community.map((link) => (
                 <li key={link.name}>
-                  {link.external ? (
-                    <a
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-gray-400 hover:text-indigo-300 transition-colors duration-300 text-sm group"
-                    >
-                      {link.name}
-                      <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </a>
-                  ) : (
-                    <Link
-                      href={link.href}
-                      className="inline-flex items-center gap-2 text-gray-400 hover:text-indigo-300 transition-colors duration-300 text-sm group"
-                    >
-                      {link.name}
-                      <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </Link>
-                  )}
+                  <Link
+                    href={link.href}
+                    className="inline-flex items-center gap-2 text-gray-400 hover:text-indigo-300 transition-colors duration-300 text-sm group"
+                  >
+                    {link.name}
+                    <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </Link>
                 </li>
               ))}
             </ul>
