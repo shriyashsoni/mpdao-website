@@ -21,7 +21,7 @@ const socialLinks = [
   { name: 'Twitter', icon: Twitter, href: 'https://x.com/MPdao_' },
   { name: 'Farcaster', icon: MessageCircle, href: 'https://farcaster.xyz/~/group/5MdpDf9A3g5b94lsnQaukA' },
   { name: 'Telegram', icon: Send, href: 'https://t.me/MP_dao' },
-  { name: 'GitHub', icon: Github, href: 'https://github.com/mpdao' },
+  { name: 'GitHub', icon: Github, href: 'https://github.com/Mp-Dao' },
 ];
 
 export default function Footer() {
