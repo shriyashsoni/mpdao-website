@@ -8,9 +8,7 @@ const footerLinks = {
   community: [
     { name: 'About', href: '/about' },
     { name: 'Events', href: '/events' },
-    { name: 'Submit Event', href: 'https://luma.com/mpdao?k=c', external: true },
     { name: 'Brand Kit', href: '/brand-kit' },
-    { name: 'Partnership', href: '/partnership' },
   ],
   legal: [
     { name: 'Privacy Policy', href: '/privacy' },
@@ -23,7 +21,7 @@ const socialLinks = [
   { name: 'Twitter', icon: Twitter, href: 'https://x.com/MPdao_' },
   { name: 'Farcaster', icon: MessageCircle, href: 'https://farcaster.xyz/~/group/5MdpDf9A3g5b94lsnQaukA' },
   { name: 'Telegram', icon: Send, href: 'https://t.me/MP_dao' },
-  { name: 'GitHub', icon: Github, href: 'https://github.com/mpdao' },
+  { name: 'GitHub', icon: Github, href: 'https://github.com/Mp-Dao' },
 ];
 
 export default function Footer() {
@@ -78,25 +76,13 @@ export default function Footer() {
             <ul className="space-y-4">
               {footerLinks.community.map((link) => (
                 <li key={link.name}>
-                  {link.external ? (
-                    <a
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-gray-400 hover:text-indigo-300 transition-colors duration-300 text-sm group"
-                    >
-                      {link.name}
-                      <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </a>
-                  ) : (
-                    <Link
-                      href={link.href}
-                      className="inline-flex items-center gap-2 text-gray-400 hover:text-indigo-300 transition-colors duration-300 text-sm group"
-                    >
-                      {link.name}
-                      <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </Link>
-                  )}
+                  <Link
+                    href={link.href}
+                    className="inline-flex items-center gap-2 text-gray-400 hover:text-indigo-300 transition-colors duration-300 text-sm group"
+                  >
+                    {link.name}
+                    <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -123,15 +109,37 @@ export default function Footer() {
           {/* Contact Section */}
           <div className="space-y-6">
             <h3 className="text-white font-semibold text-sm tracking-wider uppercase">Contact</h3>
-            <div className="space-y-4">
-              <a
-                href="mailto:mpdaoofficial@gmail.com"
-                className="inline-flex items-center gap-2 text-gray-400 hover:text-indigo-300 transition-colors duration-300 text-sm group break-all"
-              >
-                mpdaoofficial@gmail.com
-                <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-shrink-0" />
-              </a>
-            </div>
+            <ul className="space-y-4">
+              <li>
+                <a
+                  href="mailto:mpdaoofficial@gmail.com"
+                  className="inline-flex items-center gap-2 text-gray-400 hover:text-indigo-300 transition-colors duration-300 text-sm group break-all"
+                >
+                  mpdaoofficial@gmail.com
+                  <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-shrink-0" />
+                </a>
+              </li>
+              <li>
+                <Link
+                  href="/partnership"
+                  className="inline-flex items-center gap-2 text-gray-400 hover:text-indigo-300 transition-colors duration-300 text-sm group"
+                >
+                  Partnership
+                  <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="https://luma.com/mpdao?k=c"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-gray-400 hover:text-indigo-300 transition-colors duration-300 text-sm group"
+                >
+                  Submit Event
+                  <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 
