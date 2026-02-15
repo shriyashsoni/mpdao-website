@@ -13,54 +13,35 @@ export default function PartnershipPage() {
     description: '',
   });
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [errorMessage, setErrorMessage] = useState('');
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
-    setSubmitStatus('idle');
-    setErrorMessage('');
 
-    try {
-      const response = await fetch('/api/partnership', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+    // Create email body with formatted partnership request details
+    const emailBody = `Partnership Request from ${formData.name}
 
-      const data = await response.json();
+Full Name: ${formData.name}
+Email Address: ${formData.email}
+Phone: ${formData.phone || 'Not provided'}
+Company: ${formData.company}
+Partnership Type: ${formData.partnership_type}
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to submit partnership request');
-      }
+Partnership Description:
+${formData.description}
 
-      setSubmitStatus('success');
-      setFormData({
-        name: '',
-        email: '',
-        company: '',
-        phone: '',
-        partnership_type: 'strategic',
-        description: '',
-      });
+---
+Sent via MP DAO Partnership Request Form`;
 
-      // Reset success message after 5 seconds
-      setTimeout(() => setSubmitStatus('idle'), 5000);
-    } catch (error) {
-      setSubmitStatus('error');
-      setErrorMessage(error instanceof Error ? error.message : 'An error occurred');
-    } finally {
-      setIsLoading(false);
-    }
+    // Encode the email body for URL
+    const encodedBody = encodeURIComponent(emailBody);
+    const subject = encodeURIComponent(`Partnership Request from ${formData.company}`);
+
+    // Redirect to Gmail with pre-filled content
+    window.location.href = `https://mail.google.com/mail/?view=cm&fs=1&to=partnerships@mpdao.site&su=${subject}&body=${encodedBody}`;
   };
 
   return (
@@ -79,8 +60,8 @@ export default function PartnershipPage() {
           <div className="bg-slate-900 border border-slate-800 rounded-lg p-6">
             <Mail className="w-8 h-8 text-indigo-500 mb-3" />
             <h3 className="text-white font-semibold mb-2">Email</h3>
-            <a href="mailto:partnerships@mpdao.xyz" className="text-gray-400 hover:text-indigo-400 transition">
-              partnerships@mpdao.xyz
+            <a href="mailto:partnerships@mpdao.site" className="text-gray-400 hover:text-indigo-400 transition">
+              partnerships@mpdao.site
             </a>
           </div>
 
@@ -100,20 +81,6 @@ export default function PartnershipPage() {
         {/* Partnership Form */}
         <div className="bg-slate-900 border border-slate-800 rounded-lg p-8">
           <h2 className="text-2xl font-bold text-white mb-6">Send us a Partnership Request</h2>
-
-          {submitStatus === 'success' && (
-            <div className="mb-6 p-4 bg-green-900/20 border border-green-800 rounded-lg">
-              <p className="text-green-400">
-                ✓ Thank you! We've received your partnership request. We'll get back to you soon.
-              </p>
-            </div>
-          )}
-
-          {submitStatus === 'error' && (
-            <div className="mb-6 p-4 bg-red-900/20 border border-red-800 rounded-lg">
-              <p className="text-red-400">✗ {errorMessage}</p>
-            </div>
-          )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -225,15 +192,10 @@ export default function PartnershipPage() {
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={isLoading}
-              className="w-full px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition flex items-center justify-center gap-2"
             >
-              {isLoading ? 'Sending...' : (
-                <>
-                  Send Partnership Request
-                  <ArrowRight className="w-4 h-4" />
-                </>
-              )}
+              Send Partnership Request via Gmail
+              <ArrowRight className="w-4 h-4" />
             </button>
           </form>
 
