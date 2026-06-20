@@ -601,20 +601,6 @@ export default function Home() {
                 </svg>
               </a>
 
-              {/* Instagram */}
-              <a 
-                href="https://instagram.com/mpdao.in" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-black hover:scale-110 active:scale-95 transition-all duration-200"
-              >
-                <svg className="w-5 h-5 stroke-current fill-none stroke-2" viewBox="0 0 24 24">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-                </svg>
-              </a>
-
               {/* Telegram */}
               <a 
                 href="https://t.me/mpdao" 
@@ -624,16 +610,6 @@ export default function Home() {
               >
                 <svg className="w-5 h-5 fill-current translate-x-[-1px] translate-y-[1px]" viewBox="0 0 24 24">
                   <path d="M21.9 2.19a1 1 0 0 0-1.09-.22l-19 7a1 1 0 0 0-.08 1.83l7.08 3.03 3.03 7.08a1 1 0 0 0 1.83-.08l7-19a1 1 0 0 0-.27-1.06zm-11 12.06l-4.83-2.07 13.56-5-8.73 7.07z" />
-                </svg>
-              </a>
-
-              {/* AtSign (@) / Threads / Email */}
-              <a 
-                href="mailto:contact@mpdao.in" 
-                className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-black hover:scale-110 active:scale-95 transition-all duration-200"
-              >
-                <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                  <path d="M12 2a10 10 0 1 0 10 10 1 1 0 0 0-2 0 8 8 0 1 1-2.24-5.59A3 3 0 0 1 15 10v4a2 2 0 0 0 4 0v-2a7 7 0 1 0-7 7 3.91 3.91 0 0 0 3.75-2.65A5.92 5.92 0 0 0 12 18a6 6 0 1 1 6-6v2a4 4 0 0 1-8 0v-1.5a1.5 1.5 0 0 1 3 0V12a3 3 0 1 0-1 2.22V14a5.9 5.9 0 0 0 4 0v-2a8 8 0 0 0-8-8zm0 11a2 2 0 1 1 2-2 2 2 0 0 1-2 2z"/>
                 </svg>
               </a>
 
@@ -651,7 +627,7 @@ export default function Home() {
 
               {/* Discord */}
               <a 
-                href="https://discord.gg/mpdao" 
+                href="https://discord.gg/mMvPvpcJs" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-black hover:scale-110 active:scale-95 transition-all duration-200"

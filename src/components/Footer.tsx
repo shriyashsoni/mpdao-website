@@ -49,7 +49,7 @@ export default function Footer() {
             <div className="flex gap-[6px]">
               {/* Discord */}
               <a 
-                href="https://discord.gg/mpdao" 
+                href="https://discord.gg/mMvPvpcJs" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="w-8 h-8 rounded-[8px] bg-[#0e1014] flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.3)] hover:bg-black hover:-translate-y-0.5 transition-all duration-200"
