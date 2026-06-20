@@ -591,7 +591,7 @@ export default function Home() {
             <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-5 relative z-10">
               {/* Twitter / X */}
               <a 
-                href="https://x.com/mp_dao" 
+                href="https://x.com/mpdao_" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-black hover:scale-110 active:scale-95 transition-all duration-200"
@@ -603,7 +603,7 @@ export default function Home() {
 
               {/* Telegram */}
               <a 
-                href="https://t.me/mpdao" 
+                href="https://t.me/mp_dao" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-black hover:scale-110 active:scale-95 transition-all duration-200"
@@ -615,7 +615,7 @@ export default function Home() {
 
               {/* LinkedIn */}
               <a 
-                href="https://linkedin.com/company/mpdao" 
+                href="https://linkedin.com/company/mp-dao" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-black hover:scale-110 active:scale-95 transition-all duration-200"

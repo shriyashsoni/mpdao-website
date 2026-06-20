@@ -61,7 +61,7 @@ export default function Footer() {
               </a>
               {/* X (Twitter) */}
               <a 
-                href="https://x.com/MPdao_" 
+                href="https://x.com/mpdao_" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="w-8 h-8 rounded-[8px] bg-[#0e1014] flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.3)] hover:bg-black hover:-translate-y-0.5 transition-all duration-200"
@@ -73,7 +73,7 @@ export default function Footer() {
               </a>
               {/* LinkedIn */}
               <a 
-                href="https://linkedin.com/company/mpdao" 
+                href="https://linkedin.com/company/mp-dao" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="w-8 h-8 rounded-[8px] bg-[#0e1014] flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.3)] hover:bg-black hover:-translate-y-0.5 transition-all duration-200"
