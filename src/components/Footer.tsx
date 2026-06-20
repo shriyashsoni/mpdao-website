@@ -1,10 +1,42 @@
 'use client';
 
 import Link from 'next/link';
+import { useState } from 'react';
 import { useConnectModal } from '@/context/ConnectModalContext';
 
 export default function Footer() {
   const { openModal } = useConnectModal();
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+
+      if (!res.ok) throw new Error('Failed to subscribe');
+
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+        setEmail('');
+      }, 5000);
+    } catch (err: any) {
+      setError('Could not subscribe. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section 
       className="relative w-full overflow-hidden bg-black pt-10 pb-0 px-6 font-sans"
@@ -162,19 +194,38 @@ export default function Footer() {
                 Web3 moves fast.<br />
                 <strong className="block text-[17px] font-bold text-[#111827] mt-0.5">Stay ahead with MP DAO.</strong>
               </h4>
-              <div className="flex w-[290px] max-sm:w-full bg-[#ffffff] border border-[#e5e7eb] rounded-xl p-[4px] shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
-                <input 
-                  type="email" 
-                  placeholder="Enter email address" 
-                  className="flex-1 px-3 py-2 bg-transparent border-none outline-none font-sans text-[12.5px] text-[#111827] placeholder-neutral-400"
-                />
-                <button 
-                  type="button"
-                  className="px-4 py-2 bg-[#111214] text-white font-sans text-[12.5px] font-semibold rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.25)] hover:bg-black hover:-translate-y-[0.5px] transition-all duration-200 cursor-pointer"
+              
+              {success ? (
+                <div className="flex w-[290px] max-sm:w-full bg-green-50/80 border border-green-200 rounded-xl p-[10px] items-center gap-2">
+                  <span className="text-green-600 text-[13px] font-medium animate-fade-in">
+                    ✓ You're successfully subscribed!
+                  </span>
+                </div>
+              ) : (
+                <form 
+                  onSubmit={handleSubscribe}
+                  className="flex w-[290px] max-sm:w-full bg-[#ffffff] border border-[#e5e7eb] rounded-xl p-[4px] shadow-[0_2px_8px_rgba(0,0,0,0.04)] relative"
                 >
-                  Subscribe
-                </button>
-              </div>
+                  <input 
+                    type="email" 
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter email address" 
+                    className="flex-1 px-3 py-2 bg-transparent border-none outline-none font-sans text-[12.5px] text-[#111827] placeholder-neutral-400"
+                  />
+                  <button 
+                    type="submit"
+                    disabled={loading}
+                    className="px-4 py-2 bg-[#111214] text-white font-sans text-[12.5px] font-semibold rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.25)] hover:bg-black hover:-translate-y-[0.5px] transition-all duration-200 cursor-pointer disabled:opacity-70 disabled:hover:translate-y-0"
+                  >
+                    {loading ? 'Subscribing...' : 'Subscribe'}
+                  </button>
+                  {error && (
+                    <p className="absolute -bottom-6 left-0 text-red-500 text-[11px]">{error}</p>
+                  )}
+                </form>
+              )}
             </div>
           </div>
 
