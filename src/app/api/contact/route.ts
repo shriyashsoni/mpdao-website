@@ -13,8 +13,8 @@ export async function POST(req: Request) {
 
     // Send email to MP DAO Team
     const adminEmail = await resend.emails.send({
-      from: 'MP DAO <onboarding@resend.dev>', 
-      to: 'mpdaoofficial@gmail.com', // Resend testing only allows sending to your registered email
+      from: 'MP DAO <contact@mpdao.site>', 
+      to: 'contact@mpdao.site',
       subject: `New Connect Request: ${query}`,
       html: `
         <h3>New Contact Request from Website</h3>
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 
     // Send confirmation email to User
     const userEmail = await resend.emails.send({
-      from: 'MP DAO <onboarding@resend.dev>',
+      from: 'MP DAO <contact@mpdao.site>',
       to: email,
       subject: `We received your request: ${query}`,
       html: `
