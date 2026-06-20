@@ -1,8 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import { useConnectModal } from '@/context/ConnectModalContext';
 
 export default function Footer() {
+  const { openModal } = useConnectModal();
   return (
     <section 
       className="relative w-full overflow-hidden bg-black pt-10 pb-0 px-6 font-sans"
@@ -122,9 +124,9 @@ export default function Footer() {
                 <Link href="/partnership" className="font-sans font-semibold text-[13px] text-[#111827] mb-2 hover:text-[#1f65d6] transition-colors duration-200">
                   Alliances
                 </Link>
-                <a href="https://luma.com/mpdao?k=c" target="_blank" rel="noopener noreferrer" className="font-sans font-semibold text-[13px] text-[#111827] mb-2 hover:text-[#1f65d6] transition-colors duration-200">
-                  Deploy Event
-                </a>
+                <button onClick={openModal} className="font-sans text-left font-semibold text-[13px] text-[#111827] mb-2 hover:text-[#1f65d6] transition-colors duration-200">
+                  Connect
+                </button>
               </div>
               
               {/* Column 2 */}

@@ -4,9 +4,11 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Star, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useConnectModal } from '@/context/ConnectModalContext';
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const { openModal } = useConnectModal();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/85 backdrop-blur-md border-b border-white/5">
@@ -35,14 +37,12 @@ export default function Navigation() {
 
           {/* Right Action */}
           <div className="hidden sm:flex items-center gap-4">
-            <a 
-              href="https://luma.com/mpdao?k=c" 
-              target="_blank" 
-              rel="noopener noreferrer"
+            <button 
+              onClick={openModal}
               className="bg-white text-black px-5 py-2 rounded-full text-xs sm:text-sm font-medium hover:bg-gray-200 transition-colors"
             >
-              Deploy Event
-            </a>
+              Connect
+            </button>
           </div>
 
           {/* Mobile menu button */}
@@ -96,15 +96,15 @@ export default function Navigation() {
               </Link>
 
               <div className="border-t border-white/5 pt-4">
-                <a
-                  href="https://luma.com/mpdao?k=c"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={() => {
+                    setIsOpen(false);
+                    openModal();
+                  }}
                   className="bg-white text-black px-5 py-2.5 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors text-center w-full block"
-                  onClick={() => setIsOpen(false)}
                 >
-                  Deploy Event
-                </a>
+                  Connect
+                </button>
               </div>
             </div>
           </motion.div>

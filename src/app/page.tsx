@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import Footer from '@/components/Footer';
 import { useQuery } from 'convex/react';
 import { api } from '../../convex/_generated/api';
+import { useConnectModal } from '@/context/ConnectModalContext';
 
 const row1Images = [
   '/photos/IMG-20260621-WA00091.jpg',
@@ -34,6 +35,7 @@ export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const [offset, setOffset] = useState(0);
+  const { openModal } = useConnectModal();
 
   // Fetch from Convex
   const dbSponsors = useQuery(api.sponsors.getSponsors);
@@ -132,14 +134,12 @@ export default function Home() {
             <Link href="/team" className="text-sm text-gray-400 hover:text-white font-medium transition-colors">
               Core Team
             </Link>
-            <a 
-              href="https://luma.com/mpdao?k=c" 
-              target="_blank" 
-              rel="noopener noreferrer"
+            <button 
+              onClick={openModal}
               className="bg-white text-black px-5 py-2.5 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors"
             >
-              Deploy Event
-            </a>
+              Connect
+            </button>
           </div>
 
           {/* Hamburger (Mobile) */}
@@ -168,15 +168,15 @@ export default function Home() {
               <Link href="/team" onClick={() => setIsMenuOpen(false)} className="text-sm text-gray-400 hover:text-white font-medium py-1">
                 Core Team
               </Link>
-              <a 
-                href="https://luma.com/mpdao?k=c" 
-                target="_blank" 
-                rel="noopener noreferrer"
+              <button 
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  openModal();
+                }}
                 className="bg-white text-black px-5 py-2.5 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors text-center w-full block"
-                onClick={() => setIsMenuOpen(false)}
               >
-                Deploy Event
-              </a>
+                Connect
+              </button>
             </div>
           </div>
         )}
