@@ -42,7 +42,10 @@ export default function ConnectModal() {
         body: JSON.stringify(formData)
       });
       
-      if (!res.ok) throw new Error('Failed to send request');
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || 'Failed to send request');
+      }
       
       setSuccess(true);
       setTimeout(() => {

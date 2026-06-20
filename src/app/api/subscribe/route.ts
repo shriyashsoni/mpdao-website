@@ -51,6 +51,7 @@ export async function POST(req: Request) {
     // Even if one fails (like unverified domain limits), we'll return success to not block the UI if it's just a sandbox limitation.
     return NextResponse.json({ success: true });
   } catch (error: any) {
+    console.error("API Subscribe Route Error:", error);
     return NextResponse.json({ error: error.message || 'Something went wrong' }, { status: 500 });
   }
 }

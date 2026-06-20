@@ -44,11 +44,15 @@ export async function POST(req: Request) {
     });
 
     if (adminEmail.error) {
-      return NextResponse.json({ error: adminEmail.error.message }, { status: 400 });
+      console.error('Resend Error (Admin):', adminEmail.error);
+    }
+    if (userEmail.error) {
+      console.error('Resend Error (User):', userEmail.error);
     }
 
     return NextResponse.json({ success: true });
   } catch (error: any) {
+    console.error("API Contact Route Error:", error);
     return NextResponse.json({ error: error.message || 'Something went wrong' }, { status: 500 });
   }
 }
