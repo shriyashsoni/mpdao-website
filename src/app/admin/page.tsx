@@ -1741,7 +1741,7 @@ export default function AdminPanel() {
                             title: '', slogan: '', date: '', location: '', tag: 'Meetup', image: '', description: '',
                             eventLink: '', isPast: false, communityPartners: [], mediaPartners: [],
                             endDate: '', endTime: '', startTime: '', category: 'meetup',
-                            speakers: [], coHosts: [], supportedEcosystems: []
+                            speakers: [], coHosts: [], supportedEcosystems: [], themeColor: ''
                           });
                         }}
                         className="flex-1 py-2.5 border border-white/10 rounded-full text-xs font-medium hover:border-white/20 transition-colors"

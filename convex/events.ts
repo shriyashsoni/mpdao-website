@@ -27,7 +27,8 @@ export const getEventBySlug = query({
     
     // Fallback to id fetch
     try {
-      return await ctx.db.get(args.slug as any);
+      const id = args.slug as import("./_generated/dataModel").Id<"events">;
+      return await ctx.db.get(id);
     } catch {
       return null;
     }
