@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 
     // Send notification to Admin
     const adminEmail = await resend.emails.send({
-      from: 'MP DAO <onboarding@resend.dev>',
+      from: 'MP DAO <contact@mpdao.in>',
       to: 'contact@mpdao.in',
       subject: `New Newsletter Subscriber`,
       html: `
@@ -25,7 +25,7 @@ export async function POST(req: Request) {
 
     // Send welcome/confirmation to the user
     const userEmail = await resend.emails.send({
-      from: 'MP DAO <onboarding@resend.dev>',
+      from: 'MP DAO <contact@mpdao.in>',
       to: email,
       subject: `Welcome to the MP DAO Newsletter!`,
       html: `

@@ -13,8 +13,8 @@ export async function POST(req: Request) {
 
     // Send email to MP DAO Team
     const adminEmail = await resend.emails.send({
-      from: 'MP DAO <onboarding@resend.dev>', // Depending on Resend setup, you may need a verified domain here. Use onboarding@resend.dev as default if unverified.
-      to: 'contact@mpdao.in', // Target MP DAO email. If using free Resend without a domain, you can only send to your verified email.
+      from: 'MP DAO <contact@mpdao.in>', 
+      to: 'contact@mpdao.in',
       subject: `New Connect Request: ${query}`,
       html: `
         <h3>New Contact Request from Website</h3>
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 
     // Send confirmation email to User
     const userEmail = await resend.emails.send({
-      from: 'MP DAO <onboarding@resend.dev>', // Change to contact@mpdao.in if domain is verified
+      from: 'MP DAO <contact@mpdao.in>',
       to: email,
       subject: `We received your request: ${query}`,
       html: `
