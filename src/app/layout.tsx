@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
+import ClientLayout from "@/components/ClientLayout";
+import ConvexClientProvider from "@/components/ConvexClientProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -15,7 +15,12 @@ export const metadata: Metadata = {
   keywords: ["MP DAO", "Web3", "Madhya Pradesh", "Blockchain", "DAO", "Ethereum", "India", "Decentralized"],
   authors: [{ name: "MP DAO" }],
   icons: {
-    icon: "/favicon.png",
+    icon: [
+      { url: "/favicon.png" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
   },
   openGraph: {
     title: "MP DAO - Bringing Web3 to the Heart of India",
@@ -37,13 +42,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${inter.variable} antialiased bg-black text-white`}>
-        <Navigation />
-        <main className="pt-16">
-          {children}
-        </main>
-        <Footer />
+    <html lang="en">
+      <body className={`${inter.variable} antialiased bg-[#06080E] text-white relative min-h-screen`}>
+        {/* Global Background Dots */}
+        <div className="fixed inset-0 bg-[radial-gradient(#ffffff04_1.2px,transparent_1px)] [background-size:24px_24px] pointer-events-none -z-50" />
+        <ConvexClientProvider>
+          <ClientLayout>{children}</ClientLayout>
+        </ConvexClientProvider>
       </body>
     </html>
   );

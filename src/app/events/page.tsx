@@ -1,129 +1,233 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, ExternalLink, MapPin, Clock } from 'lucide-react';
+import { Calendar, MapPin, Clock, Sparkles, Eye, Users, User } from 'lucide-react';
+import { useQuery } from 'convex/react';
+import { api } from '../../../convex/_generated/api';
+import Link from 'next/link';
 
 export default function EventsPage() {
+  const dbEvents = useQuery(api.events.getEvents);
+  const [filterTab, setFilterTab] = useState<'upcoming' | 'past'>('upcoming');
+
+  const getEventHref = (event: any) => {
+    if (event.slug) {
+      return `/events/${event.slug}`;
+    }
+    if (event._id) {
+      return `/events/${event._id}`;
+    }
+    return event.eventLink || '#';
+  };
+
+  const upcomingList = dbEvents ? dbEvents.filter(e => !e.isPast) : [];
+  const pastList = dbEvents ? dbEvents.filter(e => e.isPast) : [];
+  const activeList = filterTab === 'upcoming' ? upcomingList : pastList;
+
+  // Format date helper to match the clean timeline text in screenshot
+  const formatTimelineDate = (dateStr: string) => {
+    try {
+      const cleaned = dateStr.replace(/(st|nd|rd|th),/g, ',');
+      const d = new Date(cleaned);
+      if (!isNaN(d.getTime())) {
+        const today = new Date();
+        const isToday = d.getDate() === today.getDate() && 
+                        d.getMonth() === today.getMonth() && 
+                        d.getFullYear() === today.getFullYear();
+        
+        if (isToday) {
+          return { dayStr: 'Today', weekdayStr: d.toLocaleDateString('en-US', { weekday: 'long' }) };
+        }
+
+        const dayStr = d.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+        const weekdayStr = d.toLocaleDateString('en-US', { weekday: 'long' });
+        return { dayStr, weekdayStr };
+      }
+    } catch (e) {}
+
+    // Fallback: split string sensibly
+    return { dayStr: dateStr, weekdayStr: 'Event Day' };
+  };
+
   return (
-    <div className="min-h-screen bg-black">
-      {/* Hero Section */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 grid-pattern">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-700 bg-gray-900/50 mb-6">
-              <Calendar className="w-4 h-4 text-indigo-400" />
-              <span className="text-sm text-gray-300">Events Calendar</span>
+    <div className="min-h-screen text-white font-sans overflow-x-hidden pt-24 sm:pt-32 pb-20">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-white/5 blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
+        
+        {/* Header with Timeline Toggle (as shown in screenshot) */}
+        <div className="flex justify-between items-center mb-12 border-b border-white/5 pb-6">
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white flex items-center gap-3">
+            <span>Events</span>
+          </h1>
+
+          {/* Segmented control toggle pill */}
+          <div className="flex bg-[#0C0C0C] border border-white/10 rounded-full p-1">
+            <button
+              onClick={() => setFilterTab('upcoming')}
+              className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 ${
+                filterTab === 'upcoming'
+                  ? 'bg-white/10 text-white shadow-md'
+                  : 'text-neutral-400 hover:text-white'
+              }`}
+            >
+              Upcoming
+            </button>
+            <button
+              onClick={() => setFilterTab('past')}
+              className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 ${
+                filterTab === 'past'
+                  ? 'bg-white/10 text-white shadow-md'
+                  : 'text-neutral-400 hover:text-white'
+              }`}
+            >
+              Past
+            </button>
+          </div>
+        </div>
+
+        {/* Timeline Feed Container */}
+        {dbEvents === undefined ? (
+          <div className="py-12 text-center">
+            <div className="w-8 h-8 rounded-full border-t border-white animate-spin mx-auto mb-4" />
+            <p className="text-neutral-500 text-xs font-light">Loading events schedule...</p>
+          </div>
+        ) : activeList.length === 0 ? (
+          <div className="bg-[#0C0C0C] border border-white/5 rounded-[2.5rem] p-12 text-center text-neutral-500 text-sm font-light">
+            No events found in this category. organizng soon!
+          </div>
+        ) : (
+          <div className="relative">
+            
+            {/* Timeline Vertical dashed line running down center (only on larger screens) */}
+            <div className="absolute left-[140px] top-6 bottom-6 w-[1px] border-l border-dashed border-white/15 hidden md:block" />
+
+            <div className="space-y-8">
+              {activeList.map((event) => {
+                const { dayStr, weekdayStr } = formatTimelineDate(event.date);
+                return (
+                  <div key={event._id} className="relative flex flex-col md:flex-row gap-4 md:gap-12 items-stretch">
+                    
+                    {/* Left Column: Date & Day of Week */}
+                    <div className="w-full md:w-[110px] flex-shrink-0 text-left md:text-right pt-2 md:pt-4">
+                      <span className="block text-sm sm:text-base font-bold text-white tracking-wide">{dayStr}</span>
+                      <span className="block text-xs text-neutral-500 font-light mt-0.5">{weekdayStr}</span>
+                    </div>
+
+                    {/* Timeline Connector Dot Node */}
+                    <div className="absolute left-[140px] top-[24px] -translate-x-1/2 w-2 h-2 rounded-full bg-white/20 border border-black z-10 hidden md:block" />
+
+                    {/* Right Column: Event Card */}
+                    <Link
+                      href={getEventHref(event)}
+                      className="flex-1 group bg-white/[0.02] backdrop-blur-xl border border-white/20 hover:border-white/40 hover:bg-white/[0.05] hover:shadow-[0_0_40px_rgba(255,255,255,0.05)] transition-all duration-500 rounded-[1.5rem] sm:rounded-[2rem] p-5 sm:p-6 flex flex-col sm:flex-row justify-between gap-6 shadow-2xl relative overflow-hidden"
+                    >
+                      {/* Left content within card */}
+                      <div className="flex-1 flex flex-col justify-between space-y-4 order-2 sm:order-1">
+                        <div>
+                          {/* Live / Upcoming Time indicator banner */}
+                          <div className={`flex items-center gap-1.5 text-xs font-medium tracking-wide ${
+                            (() => {
+                              try {
+                                const d = new Date(event.date.replace(/(st|nd|rd|th),/g, ','));
+                                const today = new Date();
+                                const isEventToday = d.getDate() === today.getDate() && d.getMonth() === today.getMonth() && d.getFullYear() === today.getFullYear();
+                                return isEventToday ? "text-amber-500" : (filterTab === 'upcoming' ? "text-emerald-400" : "text-neutral-500");
+                              } catch {
+                                return "text-neutral-500";
+                              }
+                            })()
+                          }`}>
+                            <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${
+                              (() => {
+                                try {
+                                  const d = new Date(event.date.replace(/(st|nd|rd|th),/g, ','));
+                                  const today = new Date();
+                                  const isEventToday = d.getDate() === today.getDate() && d.getMonth() === today.getMonth() && d.getFullYear() === today.getFullYear();
+                                  return isEventToday ? "bg-amber-500" : (filterTab === 'upcoming' ? "bg-emerald-400" : "bg-neutral-500");
+                                } catch {
+                                  return "bg-neutral-500";
+                                }
+                              })()
+                            }`} />
+                            <span>
+                              {(() => {
+                                try {
+                                  const d = new Date(event.date.replace(/(st|nd|rd|th),/g, ','));
+                                  const today = new Date();
+                                  const isEventToday = d.getDate() === today.getDate() && d.getMonth() === today.getMonth() && d.getFullYear() === today.getFullYear();
+                                  const prefix = isEventToday ? "LIVE" : (filterTab === 'upcoming' ? "UPCOMING" : "PAST");
+                                  return `${prefix} • ${event.date} • ${event.startTime ? event.startTime : '12:00 am'}`;
+                                } catch {
+                                  return event.startTime ? `EVENT • ${event.date} • ${event.startTime}` : `EVENT • ${event.date} • 12:00 am`;
+                                }
+                              })()}
+                              {event.endTime && ` - ${event.endTime}`}
+                            </span>
+                          </div>
+
+                          {/* Event Title */}
+                          <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-neutral-200 transition-colors mt-2 leading-snug">
+                            {event.title}
+                          </h3>
+
+                          {/* Host metadata */}
+                          <div className="flex items-center gap-2 text-xs text-neutral-400 font-light mt-3">
+                            <div className="w-6 h-6 rounded-full bg-neutral-800 border border-white/10 overflow-hidden flex-shrink-0 relative flex items-center justify-center text-[10px] font-medium text-white shadow-md">
+                              {event.coHosts?.[0]?.image ? (
+                                <img src={event.coHosts[0].image} alt="" className="w-full h-full object-cover" />
+                              ) : (
+                                <span>M</span>
+                              )}
+                            </div>
+                            <span className="font-medium text-neutral-300">By {event.coHosts?.[0]?.name || 'MP DAO Admin'}</span>
+                          </div>
+
+                          {/* Location metadata */}
+                          <div className="flex items-center gap-1.5 text-xs text-neutral-400 font-light mt-1.5">
+                            <MapPin size={14} className="text-neutral-500" />
+                            <span>{event.location}</span>
+                          </div>
+                        </div>
+
+                        {/* Card bottom bar badges */}
+                        <div className="flex items-center pt-2">
+                          {/* Attendee bubble preview display */}
+                          <div className="flex -space-x-1.5 items-center">
+                            <div className="w-6 h-6 rounded-full bg-neutral-800 border border-[#0C0C0C] shadow-sm overflow-hidden flex items-center justify-center text-neutral-400">
+                              <User size={12} />
+                            </div>
+                            <div className="w-6 h-6 rounded-full bg-neutral-700 border border-[#0C0C0C] shadow-sm overflow-hidden flex items-center justify-center text-neutral-400">
+                              <User size={12} />
+                            </div>
+                            <span className="text-[10px] text-neutral-500 ml-2 font-medium">
+                              +{(event.views ?? 18) + 120} views
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Right banner image within card */}
+                      {event.image && (
+                        <div className="w-full sm:w-28 md:w-32 aspect-[16/10] sm:aspect-square rounded-2xl overflow-hidden border border-white/5 flex-shrink-0 relative order-1 sm:order-2">
+                          <img
+                            src={event.image}
+                            alt={event.title}
+                            className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                          />
+                        </div>
+                      )}
+                    </Link>
+                  </div>
+                );
+              })}
             </div>
-
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              MP DAO Events
-            </h1>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-8">
-              Join our Web3 meetups, workshops, hackathons, and community events across Madhya Pradesh and beyond.
-            </p>
-
-            {/* Submit Event Button */}
-            <a
-              href="https://luma.com/mpdao?k=c"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-white text-black px-8 py-4 rounded-lg font-semibold hover:bg-gray-200 transition-all duration-200 text-lg"
-            >
-              <ExternalLink size={20} />
-              Submit Your Event
-            </a>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Event Types */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 border-t border-gray-900">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { name: 'Meetups', icon: MapPin, description: 'Local gatherings' },
-              { name: 'Workshops', icon: Clock, description: 'Hands-on learning' },
-              { name: 'Hackathons', icon: Calendar, description: 'Build together' },
-              { name: 'Online', icon: ExternalLink, description: 'Virtual events' },
-            ].map((type, index) => (
-              <motion.div
-                key={type.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-gray-900/50 border border-gray-800 rounded-xl p-4 text-center hover:border-indigo-500/50 transition-all duration-300"
-              >
-                <type.icon className="w-6 h-6 text-indigo-400 mx-auto mb-2" />
-                <h3 className="text-white font-medium">{type.name}</h3>
-                <p className="text-gray-500 text-sm">{type.description}</p>
-              </motion.div>
-            ))}
+            
           </div>
-        </div>
-      </section>
+        )}
 
-      {/* Luma Calendar Embed */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="bg-gray-900/30 rounded-2xl overflow-hidden border border-gray-800"
-          >
-            <iframe
-              src="https://luma.com/embed/calendar/cal-oMBfnE1N2HZ8RdJ/events"
-              width="100%"
-              height="700"
-              frameBorder="0"
-              style={{
-                border: 'none',
-                borderRadius: '12px',
-                background: '#0a0a0a',
-              }}
-              allowFullScreen
-              aria-hidden="false"
-              tabIndex={0}
-            />
-          </motion.div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 border-t border-gray-900">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-            Want to host an event?
-          </h2>
-          <p className="text-gray-400 mb-8">
-            We welcome community members to organize Web3 events. Submit your event and reach our growing community.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="https://luma.com/mpdao?k=c"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-white text-black px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-all duration-200"
-            >
-              <ExternalLink size={18} />
-              Submit Event on Luma
-            </a>
-            <a
-              href="https://t.me/mpdao"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 border border-gray-700 text-white px-6 py-3 rounded-lg font-semibold hover:border-white transition-all duration-200"
-            >
-              Contact Us
-            </a>
-          </div>
-        </div>
-      </section>
+      </div>
     </div>
   );
 }
