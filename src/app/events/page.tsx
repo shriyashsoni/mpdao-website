@@ -142,10 +142,10 @@ export default function EventsPage() {
                     {/* Right Column: Event Card */}
                     <Link
                       href={getEventHref(event)}
-                      className="flex-1 group bg-white/[0.02] backdrop-blur-xl border border-white/20 hover:border-white/40 hover:bg-white/[0.05] hover:shadow-[0_0_40px_rgba(255,255,255,0.05)] transition-all duration-500 rounded-[1.5rem] sm:rounded-[2rem] p-5 sm:p-6 flex flex-col sm:flex-row justify-between gap-6 shadow-2xl relative overflow-hidden"
+                      className="flex-1 group bg-white/[0.02] backdrop-blur-xl border border-white/20 hover:border-white/40 hover:bg-white/[0.05] hover:shadow-[0_0_40px_rgba(255,255,255,0.05)] transition-all duration-500 rounded-[1.5rem] sm:rounded-[2rem] p-5 sm:p-6 flex flex-row justify-between gap-4 shadow-2xl relative overflow-hidden"
                     >
                       {/* Left content within card */}
-                      <div className="flex-1 flex flex-col justify-between space-y-4 order-2 sm:order-1">
+                      <div className="flex-1 flex flex-col justify-between space-y-4 min-w-0">
                         <div>
                           {/* Live / Upcoming Time indicator banner */}
                           {(() => {
@@ -171,9 +171,9 @@ export default function EventsPage() {
                               : d.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
                             const timeStr = event.startTime || '12:00 am';
                             return (
-                              <div className={`flex items-center gap-1.5 text-xs font-medium tracking-wide ${color}`}>
-                                <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${dot}`} />
-                                <span>
+                              <div className={`flex items-center gap-1.5 text-[10px] sm:text-xs font-medium tracking-wide ${color}`}>
+                                <span className={`w-1.5 h-1.5 rounded-full animate-pulse flex-shrink-0 ${dot}`} />
+                                <span className="truncate">
                                   {prefix} • {displayDate} • {timeStr}
                                   {event.endTime && ` - ${event.endTime}`}
                                 </span>
@@ -182,7 +182,7 @@ export default function EventsPage() {
                           })()}
 
                           {/* Event Title */}
-                          <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-neutral-200 transition-colors mt-2 leading-snug">
+                          <h3 className="text-base sm:text-xl font-bold text-white group-hover:text-neutral-200 transition-colors mt-2 leading-snug">
                             {event.title}
                           </h3>
 
@@ -195,19 +195,18 @@ export default function EventsPage() {
                                 <span>M</span>
                               )}
                             </div>
-                            <span className="font-medium text-neutral-300">By {event.coHosts?.[0]?.name || 'MP DAO Admin'}</span>
+                            <span className="font-medium text-neutral-300 truncate">By {event.coHosts?.[0]?.name || 'MP DAO Admin'}</span>
                           </div>
 
                           {/* Location metadata */}
                           <div className="flex items-center gap-1.5 text-xs text-neutral-400 font-light mt-1.5">
-                            <MapPin size={14} className="text-neutral-500" />
-                            <span>{event.location}</span>
+                            <MapPin size={14} className="text-neutral-500 flex-shrink-0" />
+                            <span className="truncate">{event.location}</span>
                           </div>
                         </div>
 
                         {/* Card bottom bar badges */}
                         <div className="flex items-center pt-2">
-                          {/* Attendee bubble preview display */}
                           <div className="flex -space-x-1.5 items-center">
                             <div className="w-6 h-6 rounded-full bg-neutral-800 border border-[#0C0C0C] shadow-sm overflow-hidden flex items-center justify-center text-neutral-400">
                               <User size={12} />
@@ -222,13 +221,13 @@ export default function EventsPage() {
                         </div>
                       </div>
 
-                      {/* Right banner image within card */}
+                      {/* Poster thumbnail — always on the right, always shows full poster */}
                       {event.image && (
-                        <div className="w-full sm:w-28 md:w-32 aspect-[16/10] sm:aspect-square rounded-2xl overflow-hidden border border-white/5 flex-shrink-0 relative order-1 sm:order-2">
+                        <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border border-white/10 bg-black flex-shrink-0 flex items-center justify-center self-center">
                           <img
                             src={event.image}
                             alt={event.title}
-                            className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                            className="w-full h-full object-contain group-hover:scale-[1.03] transition-transform duration-300"
                           />
                         </div>
                       )}
