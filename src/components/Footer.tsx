@@ -178,9 +178,9 @@ export default function Footer() {
                 <Link href="/code-of-conduct" className="font-sans font-semibold text-[13px] text-[#111827] mb-2 hover:text-[#1f65d6] transition-colors duration-200">
                   Code of Conduct
                 </Link>
-                <a href="https://github.com/shriyashsoni/mpdao-website/tree/master/public/brand" target="_blank" rel="noopener noreferrer" className="font-sans font-semibold text-[13px] text-[#111827] mb-2 hover:text-[#1f65d6] transition-colors duration-200">
+                <Link href="/branding" className="font-sans font-semibold text-[13px] text-[#111827] mb-2 hover:text-[#1f65d6] transition-colors duration-200">
                   Brand Kit
-                </a>
+                </Link>
               </div>
             </div>
           </div>
