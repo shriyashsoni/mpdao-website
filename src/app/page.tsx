@@ -543,7 +543,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
             {/* Box 1: Media Partners */}
-            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#0C0C0C] p-8 sm:p-10 hover:border-white/20 transition-all duration-300 flex flex-col justify-between min-h-[420px]">
+            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#0C0C0C] p-8 sm:p-10 hover:border-white/20 transition-all duration-300 flex flex-col gap-6">
               {/* Radial gradient background */}
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 bg-white/5 blur-[80px] rounded-full pointer-events-none" />
               
@@ -558,7 +558,7 @@ export default function Home() {
               </div>
 
               {/* Grid of Partners */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mt-8 relative z-10">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 relative z-10">
                 {mediaPartnersList && mediaPartnersList.length > 0 ? (
                   mediaPartnersList.map((partner) => (
                     <a 
@@ -587,7 +587,7 @@ export default function Home() {
             </div>
 
             {/* Box 2: Community Partners */}
-            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#0C0C0C] p-8 sm:p-10 hover:border-white/20 transition-all duration-300 flex flex-col justify-between min-h-[420px]">
+            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#0C0C0C] p-8 sm:p-10 hover:border-white/20 transition-all duration-300 flex flex-col gap-6">
               {/* Radial gradient background */}
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 bg-white/5 blur-[80px] rounded-full pointer-events-none" />
               
@@ -602,7 +602,7 @@ export default function Home() {
               </div>
 
               {/* Grid of Partners */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mt-8 relative z-10">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 relative z-10">
                 {communityPartnersList && communityPartnersList.length > 0 ? (
                   communityPartnersList.map((partner) => (
                     <a 
