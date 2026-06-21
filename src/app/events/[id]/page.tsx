@@ -91,8 +91,14 @@ export default function EventDetailPage({ params }: EventDetailPageProps) {
   // Parse date helper for the calendar badge box (like JUN 27 in screenshot)
   const getCalendarDateParts = (dateStr: string) => {
     try {
-      const cleaned = dateStr.replace(/(st|nd|rd|th),/g, ',');
-      const d = new Date(cleaned);
+      let d: Date;
+      // ISO format YYYY-MM-DD (from new date picker)
+      if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+        d = new Date(dateStr + 'T00:00:00');
+      } else {
+        const cleaned = dateStr.replace(/(st|nd|rd|th),/g, ',');
+        d = new Date(cleaned);
+      }
       if (!isNaN(d.getTime())) {
         const month = d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
         const day = d.toLocaleDateString('en-US', { day: 'numeric' });
@@ -234,7 +240,13 @@ export default function EventDetailPage({ params }: EventDetailPageProps) {
                 </div>
                 <div>
                   <span className="text-xs sm:text-sm font-bold text-white block">
-                    {event.date}
+                    {(() => {
+                      if (/^\d{4}-\d{2}-\d{2}$/.test(event.date)) {
+                        const d = new Date(event.date + 'T00:00:00');
+                        return d.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+                      }
+                      return event.date;
+                    })()}
                   </span>
                   <span className="text-xs text-neutral-400 block mt-0.5">
                     {event.startTime ? `${event.startTime}` : '12:00 am'} 

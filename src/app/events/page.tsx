@@ -21,32 +21,53 @@ export default function EventsPage() {
     return event.eventLink || '#';
   };
 
-  const upcomingList = dbEvents ? dbEvents.filter(e => !e.isPast) : [];
-  const pastList = dbEvents ? dbEvents.filter(e => e.isPast) : [];
+  // Robust date parser: handles both YYYY-MM-DD (new ISO) and free-text (legacy)
+  const parseEventDate = (dateStr: string): Date => {
+    if (!dateStr) return new Date(0);
+    // ISO format YYYY-MM-DD
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+      return new Date(dateStr + 'T00:00:00');
+    }
+    // Legacy free text e.g. "August 15, 2026" or "June 21st, 2026"
+    const cleaned = dateStr.replace(/(st|nd|rd|th),/g, ',');
+    const d = new Date(cleaned);
+    return isNaN(d.getTime()) ? new Date(0) : d;
+  };
+
+  const upcomingList = dbEvents
+    ? dbEvents
+        .filter(e => !e.isPast)
+        .sort((a, b) => parseEventDate(a.date).getTime() - parseEventDate(b.date).getTime())
+    : [];
+
+  const pastList = dbEvents
+    ? dbEvents
+        .filter(e => e.isPast)
+        .sort((a, b) => parseEventDate(b.date).getTime() - parseEventDate(a.date).getTime())
+    : [];
+
   const activeList = filterTab === 'upcoming' ? upcomingList : pastList;
 
   // Format date helper to match the clean timeline text in screenshot
   const formatTimelineDate = (dateStr: string) => {
     try {
-      const cleaned = dateStr.replace(/(st|nd|rd|th),/g, ',');
-      const d = new Date(cleaned);
-      if (!isNaN(d.getTime())) {
-        const today = new Date();
-        const isToday = d.getDate() === today.getDate() && 
-                        d.getMonth() === today.getMonth() && 
-                        d.getFullYear() === today.getFullYear();
-        
-        if (isToday) {
-          return { dayStr: 'Today', weekdayStr: d.toLocaleDateString('en-US', { weekday: 'long' }) };
-        }
+      const d = parseEventDate(dateStr);
+      if (isNaN(d.getTime())) return { dayStr: dateStr, weekdayStr: 'Event Day' };
 
-        const dayStr = d.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
-        const weekdayStr = d.toLocaleDateString('en-US', { weekday: 'long' });
-        return { dayStr, weekdayStr };
+      const today = new Date();
+      const isToday =
+        d.getDate() === today.getDate() &&
+        d.getMonth() === today.getMonth() &&
+        d.getFullYear() === today.getFullYear();
+
+      if (isToday) {
+        return { dayStr: 'Today', weekdayStr: d.toLocaleDateString('en-US', { weekday: 'long' }) };
       }
-    } catch (e) {}
 
-    // Fallback: split string sensibly
+      const dayStr = d.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+      const weekdayStr = d.toLocaleDateString('en-US', { weekday: 'long' });
+      return { dayStr, weekdayStr };
+    } catch (e) {}
     return { dayStr: dateStr, weekdayStr: 'Event Day' };
   };
 
@@ -127,45 +148,38 @@ export default function EventsPage() {
                       <div className="flex-1 flex flex-col justify-between space-y-4 order-2 sm:order-1">
                         <div>
                           {/* Live / Upcoming Time indicator banner */}
-                          <div className={`flex items-center gap-1.5 text-xs font-medium tracking-wide ${
-                            (() => {
-                              try {
-                                const d = new Date(event.date.replace(/(st|nd|rd|th),/g, ','));
-                                const today = new Date();
-                                const isEventToday = d.getDate() === today.getDate() && d.getMonth() === today.getMonth() && d.getFullYear() === today.getFullYear();
-                                return isEventToday ? "text-amber-500" : (filterTab === 'upcoming' ? "text-emerald-400" : "text-neutral-500");
-                              } catch {
-                                return "text-neutral-500";
-                              }
-                            })()
-                          }`}>
-                            <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${
-                              (() => {
-                                try {
-                                  const d = new Date(event.date.replace(/(st|nd|rd|th),/g, ','));
-                                  const today = new Date();
-                                  const isEventToday = d.getDate() === today.getDate() && d.getMonth() === today.getMonth() && d.getFullYear() === today.getFullYear();
-                                  return isEventToday ? "bg-amber-500" : (filterTab === 'upcoming' ? "bg-emerald-400" : "bg-neutral-500");
-                                } catch {
-                                  return "bg-neutral-500";
-                                }
-                              })()
-                            }`} />
-                            <span>
-                              {(() => {
-                                try {
-                                  const d = new Date(event.date.replace(/(st|nd|rd|th),/g, ','));
-                                  const today = new Date();
-                                  const isEventToday = d.getDate() === today.getDate() && d.getMonth() === today.getMonth() && d.getFullYear() === today.getFullYear();
-                                  const prefix = isEventToday ? "LIVE" : (filterTab === 'upcoming' ? "UPCOMING" : "PAST");
-                                  return `${prefix} • ${event.date} • ${event.startTime ? event.startTime : '12:00 am'}`;
-                                } catch {
-                                  return event.startTime ? `EVENT • ${event.date} • ${event.startTime}` : `EVENT • ${event.date} • 12:00 am`;
-                                }
-                              })()}
-                              {event.endTime && ` - ${event.endTime}`}
-                            </span>
-                          </div>
+                          {(() => {
+                            const d = parseEventDate(event.date);
+                            const today = new Date();
+                            const isEventToday =
+                              d.getDate() === today.getDate() &&
+                              d.getMonth() === today.getMonth() &&
+                              d.getFullYear() === today.getFullYear();
+                            const color = isEventToday
+                              ? 'text-amber-500'
+                              : filterTab === 'upcoming'
+                              ? 'text-emerald-400'
+                              : 'text-neutral-500';
+                            const dot = isEventToday
+                              ? 'bg-amber-500'
+                              : filterTab === 'upcoming'
+                              ? 'bg-emerald-400'
+                              : 'bg-neutral-500';
+                            const prefix = isEventToday ? 'LIVE' : filterTab === 'upcoming' ? 'UPCOMING' : 'PAST';
+                            const displayDate = isNaN(d.getTime())
+                              ? event.date
+                              : d.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+                            const timeStr = event.startTime || '12:00 am';
+                            return (
+                              <div className={`flex items-center gap-1.5 text-xs font-medium tracking-wide ${color}`}>
+                                <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${dot}`} />
+                                <span>
+                                  {prefix} • {displayDate} • {timeStr}
+                                  {event.endTime && ` - ${event.endTime}`}
+                                </span>
+                              </div>
+                            );
+                          })()}
 
                           {/* Event Title */}
                           <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-neutral-200 transition-colors mt-2 leading-snug">

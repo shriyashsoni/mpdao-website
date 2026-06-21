@@ -55,8 +55,26 @@ export default function Home() {
     ? dbPartners.filter(p => p.type === 'community')
     : null;
 
-  const upcomingList = dbEvents ? dbEvents.filter(e => !e.isPast) : [];
-  const pastList = dbEvents ? dbEvents.filter(e => e.isPast) : [];
+  // Robust date parser: handles both YYYY-MM-DD (ISO) and legacy free-text
+  const parseEventDate = (dateStr: string): Date => {
+    if (!dateStr) return new Date(0);
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return new Date(dateStr + 'T00:00:00');
+    const cleaned = dateStr.replace(/(st|nd|rd|th),/g, ',');
+    const d = new Date(cleaned);
+    return isNaN(d.getTime()) ? new Date(0) : d;
+  };
+
+  const upcomingList = dbEvents
+    ? dbEvents
+        .filter(e => !e.isPast)
+        .sort((a, b) => parseEventDate(a.date).getTime() - parseEventDate(b.date).getTime())
+    : [];
+
+  const pastList = dbEvents
+    ? dbEvents
+        .filter(e => e.isPast)
+        .sort((a, b) => parseEventDate(b.date).getTime() - parseEventDate(a.date).getTime())
+    : [];
 
   const getEventHref = (event: any) => {
     if (event._id) {
@@ -502,16 +520,16 @@ export default function Home() {
                       href={partner.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-white/5 border border-white/5 rounded-2xl p-4 sm:p-5 flex items-center gap-3 sm:gap-4 text-left font-medium text-sm sm:text-base text-gray-300 hover:text-white hover:bg-white/10 hover:border-white/15 transition-all duration-200 relative z-10"
+                      className="bg-white/5 border border-white/5 rounded-2xl p-4 sm:p-5 flex flex-col items-center gap-3 text-center hover:bg-white/10 hover:border-white/15 transition-all duration-200 relative z-10 group"
                     >
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-black/40 flex items-center justify-center overflow-hidden flex-shrink-0 relative">
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-black/40 border border-white/10 flex items-center justify-center overflow-hidden flex-shrink-0">
                         {partner.logoUrl ? (
                           <img src={partner.logoUrl} alt={partner.name} className="w-full h-full object-contain p-1.5" />
                         ) : (
                           <Star size={16} className="text-neutral-500" />
                         )}
                       </div>
-                      <span className="truncate">{partner.name}</span>
+                      <span className="text-xs sm:text-sm font-semibold text-gray-300 group-hover:text-white transition-colors leading-tight text-center w-full">{partner.name}</span>
                     </a>
                   ))
                 ) : (
@@ -546,16 +564,16 @@ export default function Home() {
                       href={partner.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-white/5 border border-white/5 rounded-2xl p-4 sm:p-5 flex items-center gap-3 sm:gap-4 text-left font-medium text-sm sm:text-base text-gray-300 hover:text-white hover:bg-white/10 hover:border-white/15 transition-all duration-200 relative z-10"
+                      className="bg-white/5 border border-white/5 rounded-2xl p-4 sm:p-5 flex flex-col items-center gap-3 text-center hover:bg-white/10 hover:border-white/15 transition-all duration-200 relative z-10 group"
                     >
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-black/40 flex items-center justify-center overflow-hidden flex-shrink-0 relative">
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-black/40 border border-white/10 flex items-center justify-center overflow-hidden flex-shrink-0">
                         {partner.logoUrl ? (
                           <img src={partner.logoUrl} alt={partner.name} className="w-full h-full object-contain p-1.5" />
                         ) : (
                           <Users size={16} className="text-neutral-500" />
                         )}
                       </div>
-                      <span className="truncate">{partner.name}</span>
+                      <span className="text-xs sm:text-sm font-semibold text-gray-300 group-hover:text-white transition-colors leading-tight text-center w-full">{partner.name}</span>
                     </a>
                   ))
                 ) : (

@@ -1345,22 +1345,25 @@ export default function AdminPanel() {
                     <div className="flex flex-col gap-1.5">
                       <label className="text-neutral-400 text-xs font-medium">Start Date</label>
                       <input
-                        type="text"
+                        type="date"
                         required
-                        placeholder="August 15, 2026"
                         value={eventForm.date}
-                        onChange={e => setEventForm(prev => ({ ...prev, date: e.target.value }))}
-                        className="w-full px-4 py-2.5 bg-black border border-white/10 rounded-xl text-white placeholder-neutral-700 focus:border-white/30 focus:outline-none transition-colors text-sm font-light"
+                        onChange={e => {
+                          const val = e.target.value; // YYYY-MM-DD
+                          const isPastNow = val ? new Date(val) < new Date(new Date().toDateString()) : false;
+                          setEventForm(prev => ({ ...prev, date: val, isPast: isPastNow }));
+                        }}
+                        className="w-full px-4 py-2.5 bg-black border border-white/10 rounded-xl text-white focus:border-white/30 focus:outline-none transition-colors text-sm font-light [color-scheme:dark]"
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
                       <label className="text-neutral-400 text-xs font-medium">Start Time</label>
                       <input
-                        type="text"
+                        type="time"
                         placeholder="10:00 AM"
                         value={eventForm.startTime}
                         onChange={e => setEventForm(prev => ({ ...prev, startTime: e.target.value }))}
-                        className="w-full px-4 py-2.5 bg-black border border-white/10 rounded-xl text-white placeholder-neutral-700 focus:border-white/30 focus:outline-none transition-colors text-sm font-light"
+                        className="w-full px-4 py-2.5 bg-black border border-white/10 rounded-xl text-white focus:border-white/30 focus:outline-none transition-colors text-sm font-light [color-scheme:dark]"
                       />
                     </div>
                   </div>
@@ -1370,21 +1373,20 @@ export default function AdminPanel() {
                     <div className="flex flex-col gap-1.5">
                       <label className="text-neutral-400 text-xs font-medium">End Date (Optional)</label>
                       <input
-                        type="text"
-                        placeholder="August 16, 2026"
+                        type="date"
                         value={eventForm.endDate}
                         onChange={e => setEventForm(prev => ({ ...prev, endDate: e.target.value }))}
-                        className="w-full px-4 py-2.5 bg-black border border-white/10 rounded-xl text-white placeholder-neutral-700 focus:border-white/30 focus:outline-none transition-colors text-sm font-light"
+                        className="w-full px-4 py-2.5 bg-black border border-white/10 rounded-xl text-white focus:border-white/30 focus:outline-none transition-colors text-sm font-light [color-scheme:dark]"
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
                       <label className="text-neutral-400 text-xs font-medium">End Time (Optional)</label>
                       <input
-                        type="text"
+                        type="time"
                         placeholder="05:00 PM"
                         value={eventForm.endTime}
                         onChange={e => setEventForm(prev => ({ ...prev, endTime: e.target.value }))}
-                        className="w-full px-4 py-2.5 bg-black border border-white/10 rounded-xl text-white placeholder-neutral-700 focus:border-white/30 focus:outline-none transition-colors text-sm font-light"
+                        className="w-full px-4 py-2.5 bg-black border border-white/10 rounded-xl text-white focus:border-white/30 focus:outline-none transition-colors text-sm font-light [color-scheme:dark]"
                       />
                     </div>
                   </div>
