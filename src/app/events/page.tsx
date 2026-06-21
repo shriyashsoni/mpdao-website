@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, Clock, Sparkles, Eye, Users, User } from 'lucide-react';
 import { useQuery } from 'convex/react';
@@ -9,7 +10,16 @@ import Link from 'next/link';
 
 export default function EventsPage() {
   const dbEvents = useQuery(api.events.getEvents);
+  const searchParams = useSearchParams();
   const [filterTab, setFilterTab] = useState<'upcoming' | 'past'>('upcoming');
+
+  // Sync tab from URL param (?tab=past or ?tab=upcoming)
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    if (tab === 'past' || tab === 'upcoming') {
+      setFilterTab(tab);
+    }
+  }, [searchParams]);
 
   const getEventHref = (event: any) => {
     if (event.slug) {

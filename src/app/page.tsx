@@ -364,7 +364,13 @@ export default function Home() {
               <h3 className="text-xl sm:text-2xl font-medium tracking-tight text-white/90">
                 Upcoming Events
               </h3>
-              <span className="text-xs text-gray-500 uppercase tracking-widest">Stay Tuned</span>
+              <Link
+                href="/events?tab=upcoming"
+                className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-white transition-colors font-medium group"
+              >
+                <span>View All</span>
+                <span className="group-hover:translate-x-0.5 transition-transform">→</span>
+              </Link>
             </motion.div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
@@ -378,7 +384,7 @@ export default function Home() {
                   No upcoming events scheduled at the moment. Stay tuned!
                 </div>
               ) : (
-                upcomingList.map((event, idx) => (
+                upcomingList.slice(0, 3).map((event, idx) => (
                   <Link
                     href={getEventHref(event)}
                     key={`upcoming-${idx}`}
@@ -402,7 +408,11 @@ export default function Home() {
                     {/* Bottom Text Overlay */}
                     <div className="relative z-20 flex flex-col">
                       <div className="flex items-center gap-2 text-xs text-gray-300 font-medium mb-1.5">
-                        <span>{event.date}</span>
+                        <span>
+                          {/^\d{4}-\d{2}-\d{2}$/.test(event.date)
+                            ? new Date(event.date + 'T00:00:00').toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
+                            : event.date}
+                        </span>
                         <span className="w-1 h-1 bg-gray-500 rounded-full" />
                         <span>{event.location}</span>
                       </div>
@@ -417,6 +427,19 @@ export default function Home() {
                 ))
               )}
             </div>
+
+            {/* View All Upcoming CTA */}
+            {upcomingList.length > 3 && (
+              <div className="text-center mt-8">
+                <Link
+                  href="/events?tab=upcoming"
+                  className="inline-flex items-center gap-2 px-6 py-3 border border-white/10 hover:border-white/30 hover:bg-white/5 rounded-full text-sm font-medium text-gray-300 hover:text-white transition-all duration-200"
+                >
+                  <span>View All Upcoming Events</span>
+                  <span>→</span>
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* Past Events Row */}
@@ -431,7 +454,13 @@ export default function Home() {
               <h3 className="text-xl sm:text-2xl font-medium tracking-tight text-white/50">
                 Past Events
               </h3>
-              <span className="text-xs text-gray-500 uppercase tracking-widest">Completed</span>
+              <Link
+                href="/events?tab=past"
+                className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-white transition-colors font-medium group"
+              >
+                <span>View All</span>
+                <span className="group-hover:translate-x-0.5 transition-transform">→</span>
+              </Link>
             </motion.div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
@@ -445,7 +474,7 @@ export default function Home() {
                   No past events listed yet.
                 </div>
               ) : (
-                pastList.map((event, idx) => (
+                pastList.slice(0, 3).map((event, idx) => (
                   <Link
                     href={getEventHref(event)}
                     key={`past-${idx}`}
@@ -469,7 +498,11 @@ export default function Home() {
                     {/* Bottom Text Overlay */}
                     <div className="relative z-20 flex flex-col">
                       <div className="flex items-center gap-2 text-xs text-gray-400 font-medium mb-1.5">
-                        <span>{event.date}</span>
+                        <span>
+                          {/^\d{4}-\d{2}-\d{2}$/.test(event.date)
+                            ? new Date(event.date + 'T00:00:00').toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
+                            : event.date}
+                        </span>
                         <span className="w-1 h-1 bg-gray-600 rounded-full" />
                         <span>{event.location}</span>
                       </div>
@@ -484,6 +517,19 @@ export default function Home() {
                 ))
               )}
             </div>
+
+            {/* View All Past CTA */}
+            {pastList.length > 3 && (
+              <div className="text-center mt-8">
+                <Link
+                  href="/events?tab=past"
+                  className="inline-flex items-center gap-2 px-6 py-3 border border-white/10 hover:border-white/20 hover:bg-white/5 rounded-full text-sm font-medium text-gray-500 hover:text-gray-300 transition-all duration-200"
+                >
+                  <span>View All Past Events</span>
+                  <span>→</span>
+                </Link>
+              </div>
+            )}
           </div>
 
 
