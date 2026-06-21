@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, Clock, Sparkles, Eye, Users, User } from 'lucide-react';
@@ -8,7 +8,7 @@ import { useQuery } from 'convex/react';
 import { api } from '../../../convex/_generated/api';
 import Link from 'next/link';
 
-export default function EventsPage() {
+function EventsContent() {
   const dbEvents = useQuery(api.events.getEvents);
   const searchParams = useSearchParams();
   const [filterTab, setFilterTab] = useState<'upcoming' | 'past'>('upcoming');
@@ -252,5 +252,17 @@ export default function EventsPage() {
 
       </div>
     </div>
+  );
+}
+
+export default function EventsPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="w-8 h-8 rounded-full border-t border-white animate-spin" />
+      </div>
+    }>
+      <EventsContent />
+    </Suspense>
   );
 }
