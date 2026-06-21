@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "MP DAO - Bringing Web3 to the Heart of India",
     description: "A decentralized community empowering Madhya Pradesh and beyond",
-    url: "https://mpdao.xyz",
+    url: "https://mpdao.site",
     siteName: "MP DAO",
     type: "website",
   },

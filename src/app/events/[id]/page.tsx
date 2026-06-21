@@ -330,7 +330,7 @@ export default function EventDetailPage({ params }: EventDetailPageProps) {
               </h3>
               <div className="flex items-center justify-center gap-3">
                 {(() => {
-                  const eventUrl = `https://mpdao.xyz/events/${event.slug || event._id}`;
+                  const eventUrl = `https://mpdao.site/events/${event.slug || event._id}`;
                   const shareText = `Join us at ${event.title}!\nDate: ${event.date}\nLocation: ${event.location}\n\n${event.slogan}\n\nRegister here: ${eventUrl}`;
                   const encodedShareText = encodeURIComponent(shareText);
                   const encodedUrl = encodeURIComponent(eventUrl);

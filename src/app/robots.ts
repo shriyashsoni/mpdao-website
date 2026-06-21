@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/admin/'],
     },
-    sitemap: 'https://mpdao.xyz/sitemap.xml',
+    sitemap: 'https://mpdao.site/sitemap.xml',
   };
 }
